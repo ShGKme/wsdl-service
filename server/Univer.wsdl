@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="https://shagrisha.azurewebsites.net/wsdl-service/server.php" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="Univer" targetNamespace="https://shagrisha.azurewebsites.net/wsdl-service/server.php">
+    <types>
+        <xsd:schema targetNamespace="https://shagrisha.azurewebsites.net/wsdl-service/server.php">
+            <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+            <xsd:complexType name="DateArg">
+                <xsd:sequence>
+                    <xsd:element name="day" type="xsd:int"/>
+                    <xsd:element name="month" type="xsd:int"/>
+                    <xsd:element name="year" type="xsd:int"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </types>
+    <portType name="UniverPort">
+        <operation name="ShouldIGoToUniver">
+            <documentation>Функция отвечает на вопрос, надо ли в заданную дату идти в университет</documentation>
+            <input message="tns:ShouldIGoToUniverIn"/>
+            <output message="tns:ShouldIGoToUniverOut"/>
+        </operation>
+    </portType>
+    <binding name="UniverBinding" type="tns:UniverPort">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="ShouldIGoToUniver">
+            <soap:operation soapAction="https://shagrisha.azurewebsites.net/wsdl-service/server.php#ShouldIGoToUniver"/>
+            <input>
+                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://shagrisha.azurewebsites.net/wsdl-service/server.php"/>
+            </input>
+            <output>
+                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="https://shagrisha.azurewebsites.net/wsdl-service/server.php"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="UniverService">
+        <port name="UniverPort" binding="tns:UniverBinding">
+            <soap:address location="https://shagrisha.azurewebsites.net/wsdl-service/server.php"/>
+        </port>
+    </service>
+    <message name="ShouldIGoToUniverIn">
+        <part name="date" type="tns:DateArg"/>
+    </message>
+    <message name="ShouldIGoToUniverOut">
+        <part name="return" type="xsd:string"/>
+    </message>
+</definitions>
